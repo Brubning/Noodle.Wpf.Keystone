@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Noodle.Wpf.Keystone.Views.OpenSession.OpenSession"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Noodle.Wpf.Keystone.Views.OpenSession"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <local:OpenSessionViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <DockPanel>
+            <Label Background="CadetBlue"
+                   DockPanel.Dock="Top"
+                   FontSize="16"
+                   Content="Open Keystone API Session"/>
+            <!-- Username -->
+            <Grid Margin="2"
+                  DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Username"
+                       Grid.Column="0"/>
+                <TextBox Text="{Binding Username}"
+                         Grid.Column="1"/>
+
+            </Grid>
+            <!-- Password -->
+            <Grid Margin="2"
+                  DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Password"
+                       Grid.Column="0"/>
+                <TextBox Text="{Binding Password}"
+                         Grid.Column="1"/>
+
+            </Grid>
+            <!-- Database -->
+            <Grid Margin="2"
+                  DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Database"
+                       Grid.Column="0"/>
+                <TextBox Text="{Binding Database}"
+                         Grid.Column="1"/>
+
+            </Grid>
+            <!-- Buttons -->
+            <DockPanel>
+                <!-- Cancel -->
+                <Button Content="Cancel"
+                        Height="30"
+                        Padding="10,0"
+                        Margin="2"
+                        DockPanel.Dock="Right"
+                        Command="{Binding HideOpenSessionCommand}"/>
+                <!-- Sign in -->
+                <Button Content="Sign in"
+                        Height="30"
+                        Padding="10,0"
+                        Margin="2"
+                        DockPanel.Dock="Right"
+                        CommandParameter="{Binding SessionId}"
+                        Command="{Binding OpenSessionCommand}"/>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>
