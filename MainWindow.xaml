@@ -1,10 +1,11 @@
 ﻿<Window x:Class="Noodle.Wpf.Keystone.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Noodle.Wpf.Keystone"
         xmlns:os="clr-namespace:Noodle.Wpf.Keystone.Views.OpenSession"
+        xmlns:ps="clr-namespace:Noodle.Wpf.Keystone.Views.PropertySearch"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
@@ -13,7 +14,8 @@
     </Window.DataContext>
 
     <Grid>
-        <DockPanel VerticalAlignment="Top">
+        <DockPanel VerticalAlignment="Top"
+                   LastChildFill="True">
             <Border Background="CadetBlue"
                     DockPanel.Dock="Top"
                     Height="30">
@@ -26,24 +28,303 @@
                             Margin="0"
                             Content="Close Session"
                             CommandParameter="{Binding OpenSessionViewModel.SessionId}"
-                            Command="{Binding CloseSessionCommand}"/>
+                            Command="{Binding CloseSessionCommand, Mode=OneWay}"/>
                     <Button DockPanel.Dock="Right"
                             Padding="10,0"
                             Margin="0"
                             Content="Open Session"
                             CommandParameter="{Binding OpenSessionViewModel.SessionId}"
-                            Command="{Binding OpenSessionCommand}"/>
+                            Command="{Binding OpenSessionCommand, Mode=OneWay}"/>
                 </DockPanel>
             </Border>
 
-            <DockPanel DockPanel.Dock="Bottom">
-                <Button Command="{Binding GetServiceTypesCommand}"
-                        Content="Get Service Types"/>
+            <DockPanel DockPanel.Dock="Top">
+                <Button Command="{Binding LoadConfigurationCommand}"
+                        Content="Load Configuration"
+                        Height="30"
+                        Margin="2"/>
             </DockPanel>
 
-            <DataGrid ItemsSource="{Binding ServiceTypes}">
+            <!-- Configuration Counts -->
+            <GroupBox Header="Configuration Loaded"
+                      DockPanel.Dock="Left">
+                <StackPanel>
+                    <!-- Competency -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
 
-            </DataGrid>
+                        <Label Content="Competency"/>
+                        <TextBlock Text="{Binding Competencys.Count}"
+                                   Grid.Column="1"/>
+                    </Grid>
+                    <!-- Contact -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Contact"/>
+                        <TextBlock Text="{Binding Contacts.Count}"
+                                   Grid.Column="1"/>
+                    </Grid>
+                    <!-- EquipmentType -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Equipment Type"/>
+                        <TextBlock Text="{Binding EquipmentTypes.Count}"
+                                   Grid.Column="1"/>
+                    </Grid>
+                    <!-- MakeModel -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Make Model"/>
+                        <TextBlock Text="{Binding MakeModels.Count}"
+                                   Grid.Column="1"/>
+                    </Grid>
+
+                    <!-- ServiceType -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Service Type"/>
+                        <TextBlock Text="{Binding ServiceTypes.Count}"
+                                   Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Saved Visit"
+                      DockPanel.Dock="Right">
+                <StackPanel>
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Visit ID"/>
+                        <TextBox Grid.Column="1"
+                                 IsReadOnly="True"
+                                 Text="{Binding CompletedVisit.VisitId}"></TextBox>
+                    </Grid>
+                    
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Asset ID"/>
+                        <TextBox Grid.Column="1"
+                                 IsReadOnly="True"
+                                 Text="{Binding CompletedVisit.AssetId}"></TextBox>
+                    </Grid>
+                    
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Service Type ID"/>
+                        <TextBox Grid.Column="1"
+                                 IsReadOnly="True"
+                                 Text="{Binding CompletedVisit.ServiceTypeId}"></TextBox>
+                    </Grid>
+                    
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Organisation ID"/>
+                        <TextBox Grid.Column="1"
+                                 IsReadOnly="True"
+                                 Text="{Binding CompletedVisit.OrganisationId}"></TextBox>
+                    </Grid>
+                    
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Outcome ID"/>
+                        <TextBox Grid.Column="1"
+                                 IsReadOnly="True"
+                                 Text="{Binding CompletedVisit.OutcomeId}"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Submission of Completed Visit -->
+            <GroupBox Header="Completed Visit Details">
+                <StackPanel>
+                    <!-- Equipment Type -->
+                    <!--<Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Equipment Type"/>
+                        <ComboBox
+                            Grid.Column="1"
+                            DisplayMemberPath="Description"
+                            SelectedValuePath="Id"
+                            ItemsSource="{Binding EquipmentTypes}"/>
+                    </Grid>-->
+                    <!-- Contact -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Contractor"/>
+                        <ComboBox
+                            Grid.Column="1"
+                            DisplayMemberPath="Name"
+                            SelectedValue="{Binding SelectedContact}"
+                            ItemsSource="{Binding Contacts}"/>
+                    </Grid>
+                    <!-- Service Type -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Service Types"/>
+                        <ComboBox
+                            Grid.Column="1"
+                            DisplayMemberPath="Description"
+                            SelectedValue="{Binding SelectedServiceType}"
+                            ItemsSource="{Binding ServiceTypes}"/>
+                    </Grid>
+                    <!-- UPRN -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Property UPRN"/>
+                        <DockPanel Grid.Column="1">
+                            <Button DockPanel.Dock="Right"
+                                    Height="30"
+                                    Padding="10,0"
+                                    Margin="0"
+                                    Content="..."
+                                    Command="{Binding ShowAssetSearchCommand}"/>
+                            <TextBox Text="{Binding CurrentAsset.Uprn, Mode=OneWay}"
+                                     IsReadOnly="True"/>
+                        </DockPanel>
+                    </Grid>
+                    <!-- Due -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Due Date (Optional)"/>
+                        <DatePicker Grid.Column="1"
+                                 SelectedDate="{Binding ServiceDue}"></DatePicker>
+                    </Grid>
+                    <!-- Actual -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Actual Date (Optional)"/>
+                        <DatePicker Grid.Column="1"
+                                 SelectedDate="{Binding ServiceActual}"></DatePicker>
+                    </Grid>
+                    <!-- Outcome -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Outcome"/>
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding ServiceOutcome, Mode=OneWay}"></TextBox>
+                    </Grid>
+                    <!-- Comments -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Comments"/>
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding ServiceComments}"></TextBox>
+                    </Grid>
+
+                    <DockPanel LastChildFill="False">
+                        <Button Content="Save"
+                                Height="30"
+                                Padding="10,0"
+                                Margin="2"
+                                DockPanel.Dock="Right"
+                                Command="{Binding AddCompletedVisitCommand}"/>
+                    </DockPanel>
+
+                    <Label Content="{Binding CompletedVisit.VisitId}"
+                           ContentStringFormat="Visit ID: {0}"/>
+
+                    <!-- Certificate -->
+                    <!-- e.g. \\KEYSTONE-DOC\Store\Keystone\Gas\CP12\LGSR Certificates\CP12-B217000770001-190219.pdf -->
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Certificate File"/>
+                        <DockPanel Grid.Column="1">
+                            <!--<Button DockPanel.Dock="Right"
+                                    Height="30"
+                                    Padding="10,0"
+                                    Margin="0"
+                                    Content="..."/>-->
+                            <TextBox Text="{Binding CertificatePath}"/>
+                        </DockPanel>
+                    </Grid>
+
+                    <DockPanel LastChildFill="False">
+                        <Button Content="Save"
+                                Height="30"
+                                Padding="10,0"
+                                Margin="2"
+                                DockPanel.Dock="Right"
+                                Command="{Binding AddCertificateCommand}"/>
+                    </DockPanel>
+
+                </StackPanel>
+            </GroupBox>
+
         </DockPanel>
 
         <!-- Overlays -->
@@ -67,6 +348,50 @@
                 Grid.Row="1"
                 Background="LightGray"
                 DataContext="{Binding OpenSessionViewModel}"></os:OpenSession>
+
+        </Grid>
+
+        <!-- Asset Search -->
+        <Grid Visibility="{Binding AssetSearchVisibility}"
+              Margin="0"
+              Background="DarkGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="1"
+                       Grid.Column="1"
+                       Height="400"
+                       Width="600">
+
+                <DockPanel LastChildFill="False"
+                           DockPanel.Dock="Bottom">
+                    <Button Content="Select"
+                            Height="30"
+                            Padding="10,0"
+                            Margin="2"
+                            DockPanel.Dock="Right"
+                            CommandParameter="{Binding PropertySearchViewModel.SelectedResult}"
+                            Command="{Binding SelectAssetCommand}"/>
+
+                    <Button Content="Cancel"
+                            Height="30"
+                            Padding="10,0"
+                            Margin="2"
+                            DockPanel.Dock="Right"
+                            Command="{Binding HideAssetSearchCommand}"/>
+                </DockPanel>
+
+                <ps:PropertySearch DataContext="{Binding PropertySearchViewModel}"/>
+
+            </DockPanel>
 
         </Grid>
     </Grid>
